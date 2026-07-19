@@ -19,5 +19,5 @@ struct Mesh {
 
 enum class ParseError { InvalidFileStructure, InvalidFilePath };
 
-std::expected<Mesh, ParseError> read_obj(const std::filesystem::path,
+std::expected<Mesh, ParseError> read_obj(const std::filesystem::path &path,
                                          const int width, const int height);
