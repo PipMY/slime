@@ -1,6 +1,8 @@
 #pragma once
 
 #include <array>
+#include <cmath>
+
 namespace geo {
 
 // TODO: Implement Matrix operations
@@ -34,8 +36,8 @@ struct vec3 {
   vec3 operator*(const float &scalar) const {
     return vec3{x * scalar, y * scalar, z * scalar};
   }
-  vec3 operator*(const vec3 &other) const {
-    return vec3{x * other.x + y * other.y + z * other.z};
+  float operator*(const vec3 &other) const {
+    return x * other.x + y * other.y + z * other.z;
   }
 };
 
@@ -143,5 +145,26 @@ struct mat4 {
     return result;
   }
 };
+
+// --- Free-function vector utilities ----------------------------------------
+
+inline float dot(const vec3 &a, const vec3 &b) {
+  return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+inline vec3 cross(const vec3 &a, const vec3 &b) {
+  return vec3{a.y * b.z - a.z * b.y,
+              a.z * b.x - a.x * b.z,
+              a.x * b.y - a.y * b.x};
+}
+
+inline float length(const vec3 &v) {
+  return std::sqrt(dot(v, v));
+}
+
+inline vec3 normalize(const vec3 &v) {
+  const float len = length(v);
+  return vec3{v.x / len, v.y / len, v.z / len};
+}
 
 }; // namespace geo

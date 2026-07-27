@@ -107,7 +107,7 @@ void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
           colourDepth[2] = static_cast<int>(255 * grey);
           colourDepth[3] = 255;
 
-          framebuffer.set(P.x, P.y, colourDepth);
+          framebuffer.set(P.x, P.y, colour);
         }
       }
     }

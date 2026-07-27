@@ -1,2 +1,15 @@
+# Build artifacts
 *.o
 program
+/build
+
+# Generated output images
+*.tga
+# But keep model texture assets tracked
+!obj-files/**/*.tga
+
+# Feh viewer temp files
+feh*
+
+# Profiling data
+perf.data
