@@ -6,7 +6,7 @@ program
 # Generated output images
 *.tga
 # But keep model texture assets tracked
-!obj-files/**/*.tga
+!assets/**/*.tga
 
 # Feh viewer temp files
 feh*

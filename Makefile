@@ -1,24 +1,21 @@
 # Variables
 CXX = clang++
-CXXFLAGS = -std=c++26
+CXXFLAGS = -std=c++26 -I include
 
-program: main.o tgaimage.o obj_decoder.o drawing.o
-	$(CXX) $(CXXFLAGS) main.o tgaimage.o obj_decoder.o drawing.o -o program
+SRCS = src/main.cpp src/tgaimage.cpp src/obj_decoder.cpp src/drawing.cpp
+OBJS = $(SRCS:src/%.cpp=build/%.o)
 
-main.o: main.cpp
-	$(CXX) $(CXXFLAGS) -c main.cpp
+program: $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o program
 
-tgaimage.o: tgaimage.cpp
-	$(CXX) $(CXXFLAGS) -c tgaimage.cpp
+build/%.o: src/%.cpp | build
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-obj_decoder.o: obj_decoder.cpp
-	$(CXX) $(CXXFLAGS) -c obj_decoder.cpp
-
-drawing.o: drawing.cpp
-	$(CXX) $(CXXFLAGS) -c drawing.cpp
+build:
+	mkdir -p build
 
 clean:
-	rm -rf *.o program
+	rm -rf build program
 
 run: program
 	./program

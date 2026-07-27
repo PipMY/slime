@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 
   vec3 sun{1, 1, -1};
 
-  fs::path model_dir = "obj-files";
+  fs::path model_dir = "assets";
   fs::path mesh_path = model_dir / "african_head" / "african_head.obj";
   const auto mesh = read_obj(mesh_path, width, height);
   if (!mesh) {
