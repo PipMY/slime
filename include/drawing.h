@@ -22,4 +22,7 @@ void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
                TGAColor colour);
 
 int inside(geo::vec3 v0, geo::vec3 v1, geo::vec3 v2);
+
+void drawMesh(TGAImage &framebuffer, std::vector<float> &zbuffer,
+              const Mesh &mesh, geo::vec3 sun);
 } // namespace drawing

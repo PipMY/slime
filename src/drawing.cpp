@@ -1,6 +1,9 @@
 #include "drawing.h"
+#include "lighting.h"
 #include "tgaimage.h"
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
 
 namespace drawing {
 
@@ -111,6 +114,51 @@ void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
         }
       }
     }
+  }
+}
+
+void drawMesh(TGAImage &framebuffer, std::vector<float> &zbuffer,
+              const Mesh &mesh, geo::vec3 sun) {
+  for (auto &face : mesh.faces) {
+    auto v0 = mesh.vertices[face.v1];
+    auto v1 = mesh.vertices[face.v2];
+    auto v2 = mesh.vertices[face.v3];
+
+    // Ambient layer:
+    TGAColor ambientColour = lighting::uniform_colour(50);
+
+    // Diffuse layer:
+    geo::vec3 mid{(v0.x + v1.x + v2.x) / 3, (v0.y + v1.y + v2.y) / 3,
+                  (v0.z + v1.z + v2.z) / 3};
+
+    geo::vec3 AB{v1 - v0};
+    geo::vec3 AC{v2 - v0};
+
+    geo::vec3 normal = geo::normalize(geo::cross(AC, AB));
+
+    geo::vec3 l = geo::normalize(sun);
+    float diffuseIntensity = 255 * std::max(0.f, l * normal);
+    TGAColor diffuseLayer =
+        lighting::uniform_colour(static_cast<std::uint8_t>(diffuseIntensity));
+
+    // Specular layer:
+    geo::vec3 eye{500, 500, 127.5};
+
+    geo::vec3 viewDir = geo::normalize(eye - mid);
+
+    geo::vec3 r = (normal * 2.0f) * (normal * l) - l;
+
+    const float specularComponent = 2.0;
+    float specularIntensity =
+        255 * std::pow(std::max(0.f, r * viewDir), specularComponent);
+    TGAColor specularLayer =
+        lighting::uniform_colour(static_cast<std::uint8_t>(specularIntensity));
+
+    // Final colour:
+    TGAColor colour = lighting::blend(ambientColour, diffuseLayer,
+                                      specularLayer, 0.34, 0.33, 0.33);
+    drawing::rasterise(framebuffer, zbuffer, v0, v1, v2, mesh.minDEPTH,
+                       mesh.maxDEPTH, colour);
   }
 }
 

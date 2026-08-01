@@ -2,7 +2,7 @@
 CXX = clang++
 CXXFLAGS = -std=c++26 -I include
 
-SRCS = src/main.cpp src/tgaimage.cpp src/obj_decoder.cpp src/drawing.cpp
+SRCS = src/main.cpp src/tgaimage.cpp src/obj_decoder.cpp src/drawing.cpp src/lighting.cpp
 OBJS = $(SRCS:src/%.cpp=build/%.o)
 
 program: $(OBJS)

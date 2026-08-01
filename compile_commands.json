@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/pip/Desktop/gettingUncooked/renderer",
+  "command": "/usr/bin/clang++  -I/home/pip/Desktop/gettingUncooked/renderer/include -std=gnu++26 -o CMakeFiles/program.dir/src/main.cpp.o -c /home/pip/Desktop/gettingUncooked/renderer/src/main.cpp",
+  "file": "/home/pip/Desktop/gettingUncooked/renderer/src/main.cpp",
+  "output": "CMakeFiles/program.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/pip/Desktop/gettingUncooked/renderer",
+  "command": "/usr/bin/clang++  -I/home/pip/Desktop/gettingUncooked/renderer/include -std=gnu++26 -o CMakeFiles/program.dir/src/tgaimage.cpp.o -c /home/pip/Desktop/gettingUncooked/renderer/src/tgaimage.cpp",
+  "file": "/home/pip/Desktop/gettingUncooked/renderer/src/tgaimage.cpp",
+  "output": "CMakeFiles/program.dir/src/tgaimage.cpp.o"
+},
+{
+  "directory": "/home/pip/Desktop/gettingUncooked/renderer",
+  "command": "/usr/bin/clang++  -I/home/pip/Desktop/gettingUncooked/renderer/include -std=gnu++26 -o CMakeFiles/program.dir/src/obj_decoder.cpp.o -c /home/pip/Desktop/gettingUncooked/renderer/src/obj_decoder.cpp",
+  "file": "/home/pip/Desktop/gettingUncooked/renderer/src/obj_decoder.cpp",
+  "output": "CMakeFiles/program.dir/src/obj_decoder.cpp.o"
+},
+{
+  "directory": "/home/pip/Desktop/gettingUncooked/renderer",
+  "command": "/usr/bin/clang++  -I/home/pip/Desktop/gettingUncooked/renderer/include -std=gnu++26 -o CMakeFiles/program.dir/src/drawing.cpp.o -c /home/pip/Desktop/gettingUncooked/renderer/src/drawing.cpp",
+  "file": "/home/pip/Desktop/gettingUncooked/renderer/src/drawing.cpp",
+  "output": "CMakeFiles/program.dir/src/drawing.cpp.o"
+},
+{
+  "directory": "/home/pip/Desktop/gettingUncooked/renderer",
+  "command": "/usr/bin/clang++  -I/home/pip/Desktop/gettingUncooked/renderer/include -std=gnu++26 -o CMakeFiles/program.dir/src/lighting.cpp.o -c /home/pip/Desktop/gettingUncooked/renderer/src/lighting.cpp",
+  "file": "/home/pip/Desktop/gettingUncooked/renderer/src/lighting.cpp",
+  "output": "CMakeFiles/program.dir/src/lighting.cpp.o"
+}
+]

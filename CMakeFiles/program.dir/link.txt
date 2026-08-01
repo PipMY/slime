@@ -1,0 +1,1 @@
+/usr/bin/clang++ -Xlinker --dependency-file=CMakeFiles/program.dir/link.d CMakeFiles/program.dir/src/main.cpp.o CMakeFiles/program.dir/src/tgaimage.cpp.o CMakeFiles/program.dir/src/obj_decoder.cpp.o CMakeFiles/program.dir/src/drawing.cpp.o CMakeFiles/program.dir/src/lighting.cpp.o -o program

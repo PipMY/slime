@@ -3,7 +3,6 @@
 #include "geometry.h"
 #include <expected>
 #include <filesystem>
-#include <string>
 #include <vector>
 
 struct Face {

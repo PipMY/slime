@@ -1,0 +1,3 @@
+/home/pip/Desktop/gettingUncooked/renderer/CMakeFiles/program.dir
+/home/pip/Desktop/gettingUncooked/renderer/CMakeFiles/edit_cache.dir
+/home/pip/Desktop/gettingUncooked/renderer/CMakeFiles/rebuild_cache.dir
