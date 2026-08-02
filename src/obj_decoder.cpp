@@ -8,7 +8,6 @@
 #include <fstream>
 #include <sstream>
 
-
 // --- the three camera matrices ---------------------------------------------
 
 // World -> Eye. Builds the camera basis (l, m, n) from eye/center/up and
@@ -46,9 +45,13 @@ std::expected<Mesh, ParseError> read_obj(const std::filesystem::path &path,
   }
 
   std::vector<geo::vec3> vertices;
+  std::vector<geo::vec3> normals;
+  std::vector<geo::vec2> textures;
   std::vector<Face> faces;
   std::string line;
   while (std::getline(inputFile, line)) {
+
+    std::replace(line.begin(), line.end(), '/', ' ');
     std::istringstream iss(line);
     std::string prefix;
     iss >> prefix;
@@ -57,14 +60,27 @@ std::expected<Mesh, ParseError> read_obj(const std::filesystem::path &path,
       geo::vec3 vertex;
       iss >> vertex.x >> vertex.y >> vertex.z;
       vertices.push_back(vertex);
-    } else if (prefix == "f") {
-      std::string t1, t2, t3;
-      if (!(iss >> t1 >> t2 >> t3))
-        continue;
-      const int a = std::stoi(t1);
-      const int b = std::stoi(t2);
-      const int c = std::stoi(t3);
-      faces.push_back({a - 1, b - 1, c - 1});
+    } else if (prefix == "vn") {
+      geo::vec3 normal;
+      iss >> normal.x >> normal.y >> normal.z;
+      normals.push_back(normal);
+    }
+
+    else if (prefix == "f") {
+      Face face;
+      iss >> face.v1 >> face.t1 >> face.n1 >> face.v2 >> face.t2 >> face.n2 >>
+          face.v3 >> face.t3 >> face.n3;
+
+      face.v1--;
+      face.t1--;
+      face.n1--;
+      face.v2--;
+      face.t2--;
+      face.n2--;
+      face.v3--;
+      face.t3--;
+      face.n3--;
+      faces.push_back(face);
     }
   }
 
@@ -148,5 +164,5 @@ std::expected<Mesh, ParseError> read_obj(const std::filesystem::path &path,
               return maxA < maxB;
             });
 
-  return Mesh{projected_vertices, faces, minDEPTH, maxDEPTH};
+  return Mesh{projected_vertices, normals, textures, faces, minDEPTH, maxDEPTH};
 }

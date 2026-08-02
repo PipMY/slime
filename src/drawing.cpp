@@ -59,8 +59,8 @@ int inside(geo::vec3 v0, geo::vec3 v1, geo::vec3 v2) {
 }
 
 void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
-               geo::vec3 v1, geo::vec3 v2, float minDepth, float maxDepth,
-               TGAColor colour) {
+               geo::vec3 v1, geo::vec3 v2, geo::vec3 n0, geo::vec3 n1,
+               geo::vec3 n2, float minDepth, float maxDepth, TGAColor colour) {
   int ABC = inside(v0, v1, v2);
   if (ABC == 0)
     return;
@@ -124,6 +124,10 @@ void drawMesh(TGAImage &framebuffer, std::vector<float> &zbuffer,
     auto v1 = mesh.vertices[face.v2];
     auto v2 = mesh.vertices[face.v3];
 
+    auto n0 = mesh.vertices[face.n1];
+    auto n1 = mesh.vertices[face.n2];
+    auto n2 = mesh.vertices[face.n3];
+
     // Ambient layer:
     TGAColor ambientColour = lighting::uniform_colour(50);
 
@@ -157,8 +161,8 @@ void drawMesh(TGAImage &framebuffer, std::vector<float> &zbuffer,
     // Final colour:
     TGAColor colour = lighting::blend(ambientColour, diffuseLayer,
                                       specularLayer, 0.34, 0.33, 0.33);
-    drawing::rasterise(framebuffer, zbuffer, v0, v1, v2, mesh.minDEPTH,
-                       mesh.maxDEPTH, colour);
+    drawing::rasterise(framebuffer, zbuffer, v0, v1, v2, n0, n1, n2,
+                       mesh.minDEPTH, mesh.maxDEPTH, colour);
   }
 }
 

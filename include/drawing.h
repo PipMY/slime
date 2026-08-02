@@ -18,8 +18,8 @@ void drawLine(TGAImage &framebuffer, int x0, int y0, int x1, int y1,
 
 void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
 
-               geo::vec3 v1, geo::vec3 v2, float minDepth, float maxDepth,
-               TGAColor colour);
+               geo::vec3 v1, geo::vec3 v2, geo::vec3 n0, geo::vec3 n1,
+               geo::vec3 n2, float minDepth, float maxDepth, TGAColor colour);
 
 int inside(geo::vec3 v0, geo::vec3 v1, geo::vec3 v2);
 
