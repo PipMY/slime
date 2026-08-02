@@ -118,6 +118,13 @@ std::expected<Mesh, ParseError> read_obj(const std::filesystem::path &path,
   const geo::mat4 Perspective = perspective(focalLength);
   const geo::mat4 Viewport = viewport(0, 0, width, height);
 
+  std::vector<geo::vec3> transformed_normals;
+  for (const auto &n : normals) {
+    geo::vec4 normal{n.x, n.y, n.z, 0.0f};
+    normal = ModelView * normal;
+    transformed_normals.push_back(
+        geo::normalize(geo::vec3{normal.x, normal.y, normal.z}));
+  }
   std::vector<geo::vec3> projected_vertices;
   projected_vertices.reserve(vertices.size());
   float minDEPTH = FLT_MAX;
@@ -164,5 +171,7 @@ std::expected<Mesh, ParseError> read_obj(const std::filesystem::path &path,
               return maxA < maxB;
             });
 
-  return Mesh{projected_vertices, normals, textures, faces, minDEPTH, maxDEPTH};
+  return Mesh{projected_vertices, transformed_normals,
+              textures,           faces,
+              minDEPTH,           maxDEPTH};
 }
