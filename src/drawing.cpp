@@ -1,4 +1,5 @@
 #include "drawing.h"
+#include "geometry.h"
 #include "lighting.h"
 #include "tgaimage.h"
 #include <algorithm>
@@ -6,6 +7,12 @@
 #include <cstdint>
 
 namespace drawing {
+
+geo::vec3 getTextureNormal(float x, float y) {
+  geo::vec3 res;
+
+  return res;
+}
 
 void drawLine(TGAImage &framebuffer, int x0, int y0, int x1, int y1,
               TGAColor colour = white) {
@@ -134,16 +141,6 @@ void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
           TGAColor colour = lighting::blend(ambientColour, diffuseLayer,
                                             specularLayer, 0.34, 0.33, 0.33);
 
-          // Compute smooth per-pixel depth factor
-          float grey = (maxDepth > minDepth)
-                           ? (zP - minDepth) / (maxDepth - minDepth)
-                           : 1.0f;
-          TGAColor colourDepth;
-          colourDepth[0] = static_cast<int>(255 * grey);
-          colourDepth[1] = static_cast<int>(255 * grey);
-          colourDepth[2] = static_cast<int>(255 * grey);
-          colourDepth[3] = 255;
-
           framebuffer.set(P.x, P.y, colour);
         }
       }
@@ -161,6 +158,9 @@ void drawMesh(TGAImage &framebuffer, std::vector<float> &zbuffer,
     auto n0 = mesh.normals[face.n1];
     auto n1 = mesh.normals[face.n2];
     auto n2 = mesh.normals[face.n3];
+
+    auto t0 = mesh.textures[face.t1];
+    auto t1 = mesh.textures[face.t2];
 
     drawing::rasterise(framebuffer, zbuffer, v0, v1, v2, n0, n1, n2,
                        mesh.minDEPTH, mesh.maxDEPTH, sun);

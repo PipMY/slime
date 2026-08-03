@@ -6,6 +6,7 @@
 #include <expected>
 #include <filesystem>
 #include <fstream>
+#include <print>
 #include <sstream>
 
 // --- the three camera matrices ---------------------------------------------
@@ -64,6 +65,11 @@ std::expected<Mesh, ParseError> read_obj(const std::filesystem::path &path,
       geo::vec3 normal;
       iss >> normal.x >> normal.y >> normal.z;
       normals.push_back(normal);
+    } else if (prefix == "vt") {
+      geo::vec2 texture;
+      iss >> texture.x >> texture.y;
+      textures.push_back(texture);
+      std::println("textures: {}, {}", texture.x, texture.y);
     }
 
     else if (prefix == "f") {
