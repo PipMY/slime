@@ -10,7 +10,11 @@
 namespace drawing {
 
 TGAImage normalMap;
-bool res = normalMap.read_tga_file("assets/african_head/african_head_nm.tga");
+bool check = normalMap.read_tga_file("assets/african_head/african_head_nm.tga");
+
+TGAImage textureMap;
+bool check2 =
+    textureMap.read_tga_file("assets/african_head/african_head_diffuse.tga");
 
 geo::vec3 getTextureNormal(float u, float v) {
   geo::vec3 res;
@@ -26,6 +30,16 @@ geo::vec3 getTextureNormal(float u, float v) {
 
   res = geo::normalize(res);
   return res;
+}
+
+TGAColor getTexture(float u, float v) {
+
+  int x = static_cast<int>(u * textureMap.width());
+  int y = static_cast<int>(v * textureMap.height());
+
+  TGAColor colour = textureMap.get(x, y);
+
+  return colour;
 }
 void drawLine(TGAImage &framebuffer, int x0, int y0, int x1, int y1,
               TGAColor colour = white) {
@@ -91,8 +105,10 @@ void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
         float w0 = static_cast<float>(BCP) / ABC;
         float w1 = static_cast<float>(CAP) / ABC;
         float w2 = static_cast<float>(ABP) / ABC;
+
         float zP = w0 * v0.z + w1 * v1.z + w2 * v2.z;
         int idx = P.x + P.y * framebuffer.width();
+
         if (zP > zbuffer[idx]) {
           zbuffer[idx] = zP;
           TGAColor ambientColour = lighting::uniform_colour(50);
@@ -102,21 +118,35 @@ void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
           geo::vec2 uv = (t0 * w0) + (t1 * w1) + (t2 * w2);
           // Sample the normal map per pixel instead of interpolating
           // vertex normals.
+
           geo::vec3 normal = getTextureNormal(uv.x, uv.y);
+
+          TGAColor texture = getTexture(uv.x, uv.y);
+
           geo::vec3 l = geo::normalize(sun);
+
           float diffuseIntensity = 255 * std::max(0.f, l * normal);
+
           TGAColor diffuseLayer = lighting::uniform_colour(
               static_cast<std::uint8_t>(diffuseIntensity));
+
           geo::vec3 eye{500, 500, 127.5};
+
           geo::vec3 viewDir = geo::normalize(eye - mid);
+
           geo::vec3 r = (normal * 2.0f) * (normal * l) - l;
+
           const float specularComponent = 2.0;
+
           float specularIntensity =
               255 * std::pow(std::max(0.f, r * viewDir), specularComponent);
+
           TGAColor specularLayer = lighting::uniform_colour(
               static_cast<std::uint8_t>(specularIntensity));
+
           TGAColor colour = lighting::blend(ambientColour, diffuseLayer,
                                             specularLayer, 0.34, 0.33, 0.33);
+
           framebuffer.set(P.x, P.y, colour);
         }
       }

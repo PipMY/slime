@@ -1,7 +1,7 @@
 #pragma once
 
-#include "tgaimage.h"
 #include "geometry.h"
+#include "tgaimage.h"
 
 namespace lighting {
 
