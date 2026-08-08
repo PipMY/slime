@@ -1,28 +1,22 @@
 #pragma once
-
 #include "geometry.h"
 #include "obj_decoder.h"
 #include "tgaimage.h"
-
 #include <vector>
-
 namespace drawing {
 constexpr TGAColor white = {255, 255, 255, 255}; // attention, BGRA order
 constexpr TGAColor green = {0, 255, 0, 255};
 constexpr TGAColor red = {0, 0, 255, 255};
 constexpr TGAColor blue = {255, 128, 64, 255};
 constexpr TGAColor yellow = {0, 200, 255, 255};
-
 void drawLine(TGAImage &framebuffer, int x0, int y0, int x1, int y1,
               TGAColor colour);
-
 void rasterise(TGAImage &framebuffer, std::vector<float> &zbuffer, geo::vec3 v0,
-
                geo::vec3 v1, geo::vec3 v2, geo::vec3 n0, geo::vec3 n1,
-               geo::vec3 n2, float minDepth, float maxDepth, geo::vec3 sun);
-
+               geo::vec3 n2, geo::vec2 t0, geo::vec2 t1, geo::vec2 t2,
+               float minDepth, float maxDepth, geo::vec3 sun);
 int inside(geo::vec3 v0, geo::vec3 v1, geo::vec3 v2);
-
 void drawMesh(TGAImage &framebuffer, std::vector<float> &zbuffer,
               const Mesh &mesh, geo::vec3 sun);
+geo::vec3 getTextureNormal(float u, float v);
 } // namespace drawing

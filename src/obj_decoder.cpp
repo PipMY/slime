@@ -68,8 +68,8 @@ std::expected<Mesh, ParseError> read_obj(const std::filesystem::path &path,
     } else if (prefix == "vt") {
       geo::vec2 texture;
       iss >> texture.x >> texture.y;
+      texture.y = 1.f - texture.y;
       textures.push_back(texture);
-      std::println("textures: {}, {}", texture.x, texture.y);
     }
 
     else if (prefix == "f") {

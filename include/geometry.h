@@ -5,8 +5,6 @@
 
 namespace geo {
 
-// TODO: Implement Matrix operations
-
 struct vec2 {
   float x, y;
 
@@ -153,14 +151,11 @@ inline float dot(const vec3 &a, const vec3 &b) {
 }
 
 inline vec3 cross(const vec3 &a, const vec3 &b) {
-  return vec3{a.y * b.z - a.z * b.y,
-              a.z * b.x - a.x * b.z,
+  return vec3{a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z,
               a.x * b.y - a.y * b.x};
 }
 
-inline float length(const vec3 &v) {
-  return std::sqrt(dot(v, v));
-}
+inline float length(const vec3 &v) { return std::sqrt(dot(v, v)); }
 
 inline vec3 normalize(const vec3 &v) {
   const float len = length(v);
